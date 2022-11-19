@@ -34,7 +34,7 @@ export const createExercise = async (req, res) => {
     userID: _id,
     description,
     duration,
-    date: new Date(date),
+    date: new Date(date) || new Date(),
   });
 
   try {
