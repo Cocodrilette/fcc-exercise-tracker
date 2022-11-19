@@ -67,14 +67,14 @@ export const getUserLogs = async (req, res) => {
     .find({
       userID: _id,
       date: {
-        $gte: new Date(from) || "",
-        $lt: new Date(to) || "",
+        $gte: from ? new Date(from) : null,
+        $lt: to ? new Date(to) : null,
       },
     })
     .limit(parseInt(limit));
   const count = exercisesByUser.length;
 
-  const logs = exercisesByUser.map((exercise) => {
+  const log = exercisesByUser.map((exercise) => {
     return {
       description: exercise.description,
       duration: exercise.duration,
@@ -82,12 +82,10 @@ export const getUserLogs = async (req, res) => {
     };
   });
 
-  console.log(logs);
-
   res.json({
     username,
     count,
     _id,
-    logs,
+    log,
   });
 };

@@ -15,6 +15,6 @@ router.post("/", createUser);
 
 router.post("/:_id/exercises", createExercise);
 
-router.post("/:_id/logs", getUserLogs);
+router.get("/:_id/logs", getUserLogs);
 
 export default router;
