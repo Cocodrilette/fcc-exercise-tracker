@@ -26,10 +26,10 @@ export const createExercise = async (req, res) => {
   let { description, duration, date } = req.body;
   const { _id } = req.params;
 
-  const { username } = await userModel.findById(_id);
+  const user = await userModel.findById(_id);
 
   const exercise = new exerciseModel({
-    username,
+    username: user.username,
     userID: _id,
     description,
     duration,
@@ -45,7 +45,7 @@ export const createExercise = async (req, res) => {
 
   date = new Date(date).toDateString();
   res.json({
-    username,
+    username: user.username,
     description,
     duration,
     date,
