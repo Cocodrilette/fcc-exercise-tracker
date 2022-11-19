@@ -63,15 +63,23 @@ export const getUserLogs = async (req, res) => {
   const user = await userModel.findById(_id);
   const username = user.username;
 
-  const exercisesByUser = await exerciseModel
-    .find({
-      userID: _id,
-      date: {
-        $gte: from ? new Date(from) : null,
-        $lt: to ? new Date(to) : null,
-      },
-    })
-    .limit(parseInt(limit));
+  let exercisesByUser;
+
+  if ((from !== "", to !== "", limit !== "")) {
+    exercisesByUser = await exerciseModel
+      .find({
+        userID: _id,
+        date: {
+          $gte: from ? new Date(from) : null,
+          $lt: to ? new Date(to) : null,
+        },
+      })
+      .limit(parseInt(limit));
+  }
+
+  exercisesByUser = await exerciseModel.find({
+    userID: _id,
+  });
   const count = exercisesByUser.length;
 
   const log = exercisesByUser.map((exercise) => {
