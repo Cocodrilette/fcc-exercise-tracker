@@ -65,7 +65,7 @@ export const getUserLogs = async (req, res) => {
 
   let exercisesByUser;
 
-  if ((from !== "", to !== "", limit !== "")) {
+  if ((from && from !== "") || (to && to !== "")) {
     exercisesByUser = await exerciseModel
       .find({
         userID: _id,
@@ -76,9 +76,11 @@ export const getUserLogs = async (req, res) => {
       })
       .limit(parseInt(limit));
   } else {
-    exercisesByUser = await exerciseModel.find({
-      userID: _id,
-    });
+    exercisesByUser = await exerciseModel
+      .find({
+        userID: _id,
+      })
+      .limit(parseInt(limit));
   }
   const count = exercisesByUser.length;
 
