@@ -26,9 +26,7 @@ export const createExercise = async (req, res) => {
   let { description, duration, date } = req.body;
   const { _id } = req.params;
 
-  if (!date) {
-    date = new Date();
-  }
+  if (!date) date = new Date();
 
   const user = await userModel.findById(_id);
   const username = user.username;
@@ -43,7 +41,7 @@ export const createExercise = async (req, res) => {
 
   try {
     const result = await exercise.save();
-    // console.log(result);
+    console.log(result);
   } catch (error) {
     console.log(error);
   }
@@ -52,7 +50,7 @@ export const createExercise = async (req, res) => {
   res.json({
     username,
     description,
-    duration,
+    duration: parseInt(duration),
     date,
     _id,
   });
