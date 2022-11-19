@@ -44,7 +44,7 @@ export const createExercise = async (req, res) => {
     console.log(error);
   }
 
-  date = new Date(date).toDateString();
+  date = new Date(date).toDateString() || new Date.toDateString();
   res.json({
     username,
     description,
