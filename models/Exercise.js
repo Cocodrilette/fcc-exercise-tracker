@@ -5,6 +5,10 @@ const exerciseSchema = new Schema({
     type: String,
     required: [true, "The username is required"],
   },
+  userID: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   description: {
     type: String,
     required: true,
@@ -18,6 +22,11 @@ const exerciseSchema = new Schema({
     required: true,
   },
 });
+
+exerciseSchema.methods.toJSON = function () {
+  const { __v, _id, ...exerciseData } = this.toObject();
+  return exerciseData;
+};
 
 const exerciseModel = model("Exercise", exerciseSchema);
 
