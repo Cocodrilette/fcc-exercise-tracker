@@ -7,6 +7,11 @@ const UserSchema = Schema({
   },
 });
 
+UserSchema.methods.toJSON = function () {
+  const { __v, ...userData } = this.toObject();
+  return userData;
+};
+
 const userModel = model("User", UserSchema);
 
 export default userModel;

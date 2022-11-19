@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors";
+
 import { dbConnection } from "../db.js";
-import { AuthRouter, UserRouter } from "../routes/index.js";
+import UserRouter from "../routes/user.routes.js";
+import PublicRouter from "../routes/public.routes.js";
 
 class Server {
   constructor() {
@@ -29,12 +31,12 @@ class Server {
     this.app.use(express.json());
 
     this.app.use(express.static("public"));
+
+    this.app.use(express.urlencoded({ extended: true }));
   }
 
   routes() {
-    this.app.get("/", (req, res) => {
-      res.sendFile(__dirname + ".." + "views/index.html");
-    });
+    this.app.use(this.apiPaths.public, PublicRouter);
 
     this.app.use(this.apiPaths.user, UserRouter);
   }
