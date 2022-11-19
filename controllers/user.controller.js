@@ -1,5 +1,11 @@
 import userModel from "../models/User.js";
 
+export const getAllUsers = async (req, res) => {
+  const users = await userModel.find({});
+
+  res.json(users);
+};
+
 export const createUser = async (req, res) => {
   const { username } = req.body;
 
