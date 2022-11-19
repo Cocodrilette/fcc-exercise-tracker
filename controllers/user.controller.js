@@ -75,11 +75,11 @@ export const getUserLogs = async (req, res) => {
         },
       })
       .limit(parseInt(limit));
+  } else {
+    exercisesByUser = await exerciseModel.find({
+      userID: _id,
+    });
   }
-
-  exercisesByUser = await exerciseModel.find({
-    userID: _id,
-  });
   const count = exercisesByUser.length;
 
   const log = exercisesByUser.map((exercise) => {
