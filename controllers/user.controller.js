@@ -55,3 +55,39 @@ export const createExercise = async (req, res) => {
     _id,
   });
 };
+
+export const getUserLogs = async (req, res) => {
+  const { from, to, limit } = req.query;
+  const { _id } = req.params;
+
+  const user = await userModel.findById(_id);
+  const username = user.username;
+
+  const exercisesByUser = await exerciseModel
+    .find({
+      userID: _id,
+      date: {
+        $gte: new Date(from) || "",
+        $lt: new Date(to) || "",
+      },
+    })
+    .limit(parseInt(limit));
+  const count = exercisesByUser.length;
+
+  const logs = exercisesByUser.map((exercise) => {
+    return {
+      description: exercise.description,
+      duration: exercise.duration,
+      date: new Date(exercise.date).toDateString(),
+    };
+  });
+
+  console.log(logs);
+
+  res.json({
+    username,
+    count,
+    _id,
+    logs,
+  });
+};
